@@ -23,6 +23,7 @@ RUN --mount=type=cache,target=/root/.cache \
     /src
 
 FROM mcr.microsoft.com/azurelinux/base/core:3.0
+RUN useradd --uid 10000 apps
 COPY --from=build /root/.local/share/uv /root/.local/share/uv
 COPY --from=build /app /app
 ENV PATH=/app/bin:$PATH
