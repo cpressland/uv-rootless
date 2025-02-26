@@ -6,24 +6,28 @@ ENV UV_LINK_MODE=copy \
     UV_PYTHON=python3.13 \
     UV_PROJECT_ENVIRONMENT=/app
 
-COPY pyproject.toml /_lock/
-COPY uv.lock /_lock/
-RUN --mount=type=cache,target=/root/.cache \
+RUN mkdir -p /app && chown nonroot:nonroot /app
+USER nonroot
+
+COPY --chown=nonroot:nonroot pyproject.toml /_lock/
+COPY --chown=nonroot:nonroot uv.lock /_lock/
+RUN --mount=type=cache,target=/home/nonroot/.cache,uid=65532,gid=65532 \
     cd /_lock && \
     uv sync \
     --locked \
     --no-dev \
     --no-install-project
 
-COPY . /src
-RUN --mount=type=cache,target=/root/.cache \
+COPY --chown=nonroot:nonroot . /src
+RUN --mount=type=cache,target=/home/nonroot/.cache,uid=65532,gid=65532 \
     uv pip install \
     --python=$UV_PROJECT_ENVIRONMENT \
     --no-deps \
     /src
 
 FROM mcr.microsoft.com/azurelinux/base/core:3.0
-COPY --from=build --chown=nonroot:nonroot /root/.local/share/uv /root/.local/share/uv
-COPY --from=build --chown=nonroot:nonroot /app /app
+USER nonroot
+COPY --from=build /home/nonroot/.local/share/uv /home/nonroot/.local/share/uv
+COPY --from=build /app /app
 ENV PATH=/app/bin:$PATH
 ENTRYPOINT [ "uv-rootless" ]
