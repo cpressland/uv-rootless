@@ -23,8 +23,7 @@ RUN --mount=type=cache,target=/root/.cache \
     /src
 
 FROM mcr.microsoft.com/azurelinux/base/core:3.0
-RUN adduser --uid 10000 apps
-COPY --from=build /root/.local/share/uv /root/.local/share/uv
-COPY --from=build /app /app
+COPY --from=build --chown=nonroot:nonroot /root/.local/share/uv /root/.local/share/uv
+COPY --from=build --chown=nonroot:nonroot /app /app
 ENV PATH=/app/bin:$PATH
 ENTRYPOINT [ "uv-rootless" ]

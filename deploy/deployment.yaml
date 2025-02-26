@@ -20,7 +20,7 @@ spec:
           command: ["tail", "-f", "/dev/null"]
           securityContext:
             runAsNonRoot: true
-            runAsUser: 10000
+            runAsUser: 65532
           resources:
             requests:
               memory: "128Mi"
