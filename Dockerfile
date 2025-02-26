@@ -9,8 +9,7 @@ ENV UV_LINK_MODE=copy \
 RUN mkdir -p /app && chown nonroot:nonroot /app
 USER nonroot
 
-COPY --chown=nonroot:nonroot pyproject.toml /_lock/
-COPY --chown=nonroot:nonroot uv.lock /_lock/
+COPY pyproject.toml uv.lock /_lock/
 RUN --mount=type=cache,target=/home/nonroot/.cache,uid=65532,gid=65532 \
     cd /_lock && \
     uv sync \

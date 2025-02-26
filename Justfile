@@ -8,7 +8,7 @@ test:
     kind create cluster --name uv-rootless
     kubectl apply -k deploy
     kubectl config set-context --current --namespace uv-rootless
-    sleep 5
+    sleep 15
     kubectl wait --for=condition=ready pod --all
     kubectl exec -it deploy/uv-rootless -- bash
 
