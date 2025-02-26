@@ -12,6 +12,9 @@ uv-rootless = "uv_rootless:app"
 [tool.uv]
 package = true
 
+[tool.setuptools]
+packages = ["uv_rootless"]
+
 [dependency-groups]
 dev = ["ruff>=0.9.7"]
 
