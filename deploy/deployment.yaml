@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uv-rootless
+  namespace: uv-rootless
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uv-rootless
+  template:
+    metadata:
+      labels:
+        app: uv-rootless
+    spec:
+      imagePullPolicy: Always
+      containers:
+        - name: uv-rootless
+          image: ghcr.io/cpressland/uv-rootless:latest
+          command: ["tail", "-f", "/dev/null"]
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "100m"
