@@ -13,10 +13,10 @@ spec:
       labels:
         app: uv-rootless
     spec:
-      imagePullPolicy: Always
       containers:
         - name: uv-rootless
           image: ghcr.io/cpressland/uv-rootless:latest
+          imagePullPolicy: Always
           command: ["tail", "-f", "/dev/null"]
           resources:
             requests:
